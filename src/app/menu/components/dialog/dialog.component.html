@@ -1,0 +1,65 @@
+<form [formGroup]="menuForm" (ngSubmit)="submitMenuForm()">
+    <div class="modal d-block background-backdrop" tabindex="-1" role="dialog" data-backdrop="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> Add new item</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="name">Name: </label>
+                        <input type="text" [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
+                            formControlName="name" class="form-control" name="name" id="name"
+                            placeholder="Enter pizza name">
+
+                        <div *ngIf="submitted && f.name.errors" class="invalid-feedback d-block">
+                            <div *ngIf="f.name.errors.required"> This field is required </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="slug">Slug: </label>
+                        <input type="text" [ngClass]="{ 'is-invalid': submitted && f.slug.errors }"
+                            formControlName="slug" class="form-control" id="slug" placeholder="Enter pizza slug">
+
+                        <div *ngIf="submitted && f.slug.errors" class="invalid-feedback d-block">
+                            <div *ngIf="f.slug.errors.required"> This field is required </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="size">Size: </label>
+                        <div class="input-group mb-3">
+                            <select class="custom-select" [ngClass]="{ 'is-invalid': submitted && f.size.errors }"
+                                id="size" formControlName="size">
+                                <option> Select pizza size </option>
+                                <option *ngFor="let size of sizes" [value]="size"> {{ size }}</option>
+                            </select>
+
+                            <div *ngIf="submitted && f.size.errors" class="invalid-feedback d-block">
+                                <div *ngIf="f.size.errors.required"> This field is required </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="price">Price: </label>
+                        <input type="number" [ngClass]="{ 'is-invalid': submitted && f.price.errors }"
+                            formControlName="price" class="form-control" id="price" placeholder="Enter pizza price">
+
+                        <div *ngIf="submitted && f.price.errors" class="invalid-feedback d-block">
+                            <div *ngIf="f.price.errors.required"> This field is required </div>
+                            <div *ngIf="f.price.errors.min"> Minimal price is 0.01 </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button (click)="closeModal()" type="button" class="btn btn-light mr-2">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        {{ selectedMenu ? 'Update' : 'Add' }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

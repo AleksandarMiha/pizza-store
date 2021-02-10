@@ -6,6 +6,9 @@ export const environment = {
   production: false
 };
 
+export const apiUrl = 'https://run.mocky.io/v3/8189a948-cdf2-47a1-9698-f765d50f0f94';
+
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

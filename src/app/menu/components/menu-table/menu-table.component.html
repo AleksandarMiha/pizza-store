@@ -1,0 +1,27 @@
+<app-dialog *ngIf="modalOpen" (closeDialog)="recieveDialogClose($event)" (sendFormValue)="recieveDataForm($event)"
+    [selectedMenu]="selectedMenuData"></app-dialog>
+<app-search (sendEvent)="receivedMessage($event)"></app-search>
+<table class="w-100">
+    <thead>
+        <tr>
+            <th> Name</th>
+            <th> Size</th>
+            <th> Price</th>
+            <th> Date added</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let menu of allMenus | searchInput:searchTerm; let i=index;">
+            <td> {{ menu.name }}</td>
+            <td> {{ menu.size }}cm</td>
+            <td> {{ menu.price | currency : 'USD' : 'symbol' : '1.0-0'  }}</td>
+            <td> {{ menu.date | date: 'dd/MM/yyyy hh:mm' }}</td>
+            <td>
+                <button (click)="toggleModal(menu)" class="btn btn-secondary mr-3"> Edit </button>
+                <button (click)="removeMenu(menu)" class="btn btn-secondary"> Remove </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<button class="btn btn-primary w-100 p-2 mt-3" (click)="toggleModal(null)"> Add new</button>
