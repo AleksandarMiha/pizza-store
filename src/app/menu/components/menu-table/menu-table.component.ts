@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MenuService } from '../../services/menu.service';
 import * as moment from 'moment';
 import { IMenu } from '../../../shared/models/menu'
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-menu-table',
   templateUrl: './menu-table.component.html',
@@ -12,7 +14,7 @@ export class MenuTableComponent implements OnInit {
   searchTerm: any = '';
   modalOpen: boolean = false;
   selectedMenuData: any;
-
+  destroy$: Subject<boolean> = new Subject<boolean>();
   constructor(
     private menuService: MenuService,
   ) { }
@@ -22,7 +24,9 @@ export class MenuTableComponent implements OnInit {
   }
 
   getMenus() {
-    this.menuService.getMenu().subscribe(
+    this.menuService.getMenu()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(
       data => {
         this.allMenus = data;
         this.addId(this.allMenus)
@@ -76,6 +80,11 @@ export class MenuTableComponent implements OnInit {
 
   recieveDialogClose(dialogCance: any) {
     this.modalOpen = false;
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true); 
+    this.destroy$.unsubscribe();
   }
 
 }
